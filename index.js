@@ -63,8 +63,24 @@ async function run() {
     //update data/user
     app.put("/users/:id", async (req, res) => {
       const id = req.params.id;
-      const updatedUser = req.body;
-      console.log(updatedUser);
+      const user = req.body;
+
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedUser = {
+        $set: {
+          name: user.name,
+          email: user.email,
+        },
+      };
+
+      const result = await usersCollection.updateOne(
+        filter,
+        updatedUser,
+        options
+      );
+
+      res.send(result);
     });
 
     await client.db("admin").command({ ping: 1 });
