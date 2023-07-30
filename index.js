@@ -60,6 +60,13 @@ async function run() {
       res.send(result);
     });
 
+    //update data/user
+    app.put("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedUser = req.body;
+      console.log(updatedUser);
+    });
+
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
